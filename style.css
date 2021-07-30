@@ -1,0 +1,32 @@
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    align-self: center;
+}
+
+#book-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    background: lightyellow;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.book-card {
+    display: flex;
+    border: 1px black solid;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 30px;
+    width: 15em;
+}
+
+.book-card-text {
+    margin: 20px;
+}
