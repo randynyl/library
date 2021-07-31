@@ -10,6 +10,24 @@
 <body>
     <header>Library</header>
     <div id="book-container"></div>
+    <div class="form" id="add-book-form">
+        <div class="form-header">
+            <div class="title">Add New Book</div>
+            <button data-close-button class="close-button">&times;</button>
+        </div>
+        <div class="form-body">
+            <form>
+                <input class="text-input" type="text" id="title-input" placeholder="Title">
+                <input class="text-input" type="text" id="author-input" placeholder="Author">
+                <input class="text-input" type="number" id="page-input" placeHolder="Page Count">
+                <label class="checkbox-input" for="read-status">Has this book been read?
+                    <input type="checkbox" id="read-checkbox" name="read-status">
+                </label>
+                <input type="submit" value="Confirm">
+            </form>
+        </div>
+    </div>
+    <div id="overlay"></div>
 
     <script charset="utf-8" src="script.js"></script>
 </body>
