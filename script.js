@@ -15,6 +15,7 @@ function Book(title, author, pages) {
         }
         return bookDetails + readDetails;
     }
+
 }
 
 function addBookToLibrary() {
@@ -26,6 +27,7 @@ function addBookToLibrary() {
 
 function displayBooks(bookArr) {
     const bookContainer = document.getElementById('book-container');
+    bookContainer.innerHTML = '';
 
     bookArr.forEach(book => {
         let bookCard = document.createElement('div');
@@ -92,5 +94,33 @@ function closeForm(form) {
     form.classList.remove('active');
     overlay.classList.remove('active');
 }
+
 addBookToLibrary();
 displayBooks(myLibrary);
+
+
+confirmBtn = document.getElementById('add-confirm-button');
+confirmBtn.addEventListener('click', () => {
+    // let newBookTitle = document.getElementById('title-input').value;
+    // let newBookAuthor = document.getElementById('author-input').value;
+    // let newBookPages = document.getElementById('page-input').value;
+
+    // console.log(newBookTitle);
+    // console.log(newBookAuthor);
+    // console.log(newBookPages);
+
+    // let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
+    // myLibrary.push(addedBook);
+    // displayBooks(myLibrary);
+
+    const form = document.getElementById('submit-form');
+    let newBookTitle = form.elements['title-input'].value;
+    let newBookAuthor = form.elements['author-input'].value;
+    let newBookPages = form.elements['page-input'].value;
+
+    let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
+    myLibrary.push(addedBook);
+    closeForm(document.querySelector('#add-book-form'));
+    displayBooks(myLibrary);
+})
+

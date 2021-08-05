@@ -16,14 +16,14 @@
             <button data-close-button class="close-button">&times;</button>
         </div>
         <div class="form-body">
-            <form>
+            <form id="submit-form" action="" onsubmit="return false">
                 <input class="text-input" type="text" id="title-input" placeholder="Title">
                 <input class="text-input" type="text" id="author-input" placeholder="Author">
                 <input class="text-input" type="number" id="page-input" placeHolder="Page Count">
                 <label class="checkbox-input" for="read-status">Has this book been read?
                     <input type="checkbox" id="read-checkbox" name="read-status">
                 </label>
-                <input type="submit" value="Confirm">
+                <input type="submit" value="Confirm" id="add-confirm-button">
             </form>
         </div>
     </div>
