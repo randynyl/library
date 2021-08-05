@@ -16,6 +16,7 @@ function Book(title, author, pages) {
         return bookDetails + readDetails;
     }
 
+
 }
 
 function addBookToLibrary() {
@@ -29,25 +30,37 @@ function displayBooks(bookArr) {
     const bookContainer = document.getElementById('book-container');
     bookContainer.innerHTML = '';
 
-    bookArr.forEach(book => {
+    bookArr.forEach((book, index) => {
         let bookCard = document.createElement('div');
         let titleText = document.createElement('div');
         let authorText = document.createElement('div');
         let pageNum = document.createElement('div');
+        let removeBtn = document.createElement('button');
+        bookCard.setAttribute('data-index', index);
 
         titleText.classList.add('book-card-text');
         authorText.classList.add('book-card-text');
         pageNum.classList.add('book-card-text');
+        removeBtn.classList.add('remove-button');
+
+        removeBtn.addEventListener('click', () => {
+            let index = removeBtn.parentNode.getAttribute('data-index');
+            myLibrary.splice(index, 1);
+            displayBooks(bookArr);
+        })
 
         console.log(book.title);
         titleText.innerHTML = book.title;
         authorText.innerHTML = book.author;
         pageNum.innerHTML = book.pages + ' pages';
+        removeBtn.innerHTML = 'REMOVE BOOK';
 
         bookCard.appendChild(titleText);
         bookCard.appendChild(authorText);
         bookCard.appendChild(pageNum);
+        bookCard.appendChild(removeBtn);
         bookCard.classList.add('book-card');
+
 
         bookContainer.appendChild(bookCard);
     })
