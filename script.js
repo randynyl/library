@@ -4,7 +4,7 @@ function Book(title, author, pages) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    read = false;
+    this.read = false;
     this.info = function() {
         let bookDetails = `${title} by ${author}, ${pages} pages, `;
         let readDetails;
@@ -15,12 +15,21 @@ function Book(title, author, pages) {
         }
         return bookDetails + readDetails;
     }
+    this.toggleRead = function() {
+        if (this.read) {
+            this.read = false;
+        } else {
+            this.read = true;
+        }
+    }
 
 
 }
 
 function addBookToLibrary() {
     let book1 = new Book("title 1", "author 1", 362);
+    book1.toggleRead();
+    console.log(book1.read);
     let book2 = new Book("title 2", "author 2", 363);
     myLibrary.push(book1);
     myLibrary.push(book2);
@@ -35,13 +44,19 @@ function displayBooks(bookArr) {
         let titleText = document.createElement('div');
         let authorText = document.createElement('div');
         let pageNum = document.createElement('div');
+        let readBtn = document.createElement('button');
         let removeBtn = document.createElement('button');
         bookCard.setAttribute('data-index', index);
 
         titleText.classList.add('book-card-text');
         authorText.classList.add('book-card-text');
         pageNum.classList.add('book-card-text');
+        readBtn.classList.add('unread-button');
         removeBtn.classList.add('remove-button');
+
+        readBtn.addEventListener('click', () => {
+            toggleReadButton(readBtn);
+        })
 
         removeBtn.addEventListener('click', () => {
             let index = removeBtn.parentNode.getAttribute('data-index');
@@ -53,14 +68,19 @@ function displayBooks(bookArr) {
         titleText.innerHTML = book.title;
         authorText.innerHTML = book.author;
         pageNum.innerHTML = book.pages + ' pages';
+        readBtn.innerHTML = 'UNREAD';
         removeBtn.innerHTML = 'REMOVE BOOK';
 
         bookCard.appendChild(titleText);
         bookCard.appendChild(authorText);
         bookCard.appendChild(pageNum);
+        bookCard.appendChild(readBtn);
         bookCard.appendChild(removeBtn);
         bookCard.classList.add('book-card');
 
+        if (book.read == true) {
+            toggleReadButton(readBtn);
+        }
 
         bookContainer.appendChild(bookCard);
     })
@@ -78,6 +98,17 @@ function displayBooks(bookArr) {
         openForm(form);
     })
 
+}
+
+function toggleReadButton(readBtn) {
+    let index = readBtn.parentNode.getAttribute('data-index');
+    myLibrary[index].toggleRead();
+    if (readBtn.classList.contains('read-button')) {
+        readBtn.innerHTML = 'UNREAD';
+    } else {
+        readBtn.innerHTML = 'READ';
+    }
+    readBtn.classList.toggle('read-button');
 }
 
 function openForm(form) {
@@ -130,8 +161,12 @@ confirmBtn.addEventListener('click', () => {
     let newBookTitle = form.elements['title-input'].value;
     let newBookAuthor = form.elements['author-input'].value;
     let newBookPages = form.elements['page-input'].value;
+    let newBookIsRead = form.elements['read-checkbox'].checked;
 
     let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
+    if (newBookIsRead) {
+        addedBook.toggleRead();
+    }
     myLibrary.push(addedBook);
     closeForm(document.querySelector('#add-book-form'));
     displayBooks(myLibrary);

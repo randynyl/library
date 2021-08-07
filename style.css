@@ -1,6 +1,7 @@
 body {
     display: flex;
     flex-direction: column;
+    font-family: 'Monserrat', sans-serif;
 }
 
 header {
@@ -123,5 +124,13 @@ form {
 }
 
 .remove-button {
+
+}
+
+.unread-button {
+
+}
+
+.read-button {
     
 }
