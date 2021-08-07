@@ -26,14 +26,6 @@ function Book(title, author, pages) {
 
 }
 
-function addBookToLibrary() {
-    let book1 = new Book("title 1", "author 1", 362);
-    book1.toggleRead();
-    console.log(book1.read);
-    let book2 = new Book("title 2", "author 2", 363);
-    myLibrary.push(book1);
-    myLibrary.push(book2);
-}
 
 function displayBooks(bookArr) {
     const bookContainer = document.getElementById('book-container');
@@ -48,11 +40,11 @@ function displayBooks(bookArr) {
         let removeBtn = document.createElement('button');
         bookCard.setAttribute('data-index', index);
 
-        titleText.classList.add('book-card-text');
+        titleText.classList.add('book-card-text', 'book-title');
         authorText.classList.add('book-card-text');
         pageNum.classList.add('book-card-text');
         readBtn.classList.add('unread-button');
-        removeBtn.classList.add('remove-button');
+        removeBtn.classList.add('add-remove-confirm-button');
 
         readBtn.addEventListener('click', () => {
             toggleReadButton(readBtn);
@@ -89,7 +81,7 @@ function displayBooks(bookArr) {
     let addBtn = document.createElement('button');
 
     addBtn.innerHTML = 'ADD BOOK';
-    addBtn.classList.add('add-btn');
+    addBtn.classList.add('add-remove-confirm-button');
     addBookCard.appendChild(addBtn);
     addBookCard.classList.add('book-card');
     bookContainer.appendChild(addBookCard);
@@ -139,36 +131,37 @@ function closeForm(form) {
     overlay.classList.remove('active');
 }
 
-addBookToLibrary();
-displayBooks(myLibrary);
-
-
-confirmBtn = document.getElementById('add-confirm-button');
-confirmBtn.addEventListener('click', () => {
-    // let newBookTitle = document.getElementById('title-input').value;
-    // let newBookAuthor = document.getElementById('author-input').value;
-    // let newBookPages = document.getElementById('page-input').value;
-
-    // console.log(newBookTitle);
-    // console.log(newBookAuthor);
-    // console.log(newBookPages);
-
-    // let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
-    // myLibrary.push(addedBook);
-    // displayBooks(myLibrary);
-
-    const form = document.getElementById('submit-form');
-    let newBookTitle = form.elements['title-input'].value;
-    let newBookAuthor = form.elements['author-input'].value;
-    let newBookPages = form.elements['page-input'].value;
-    let newBookIsRead = form.elements['read-checkbox'].checked;
-
-    let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
-    if (newBookIsRead) {
-        addedBook.toggleRead();
-    }
-    myLibrary.push(addedBook);
-    closeForm(document.querySelector('#add-book-form'));
+function main() {
     displayBooks(myLibrary);
-})
+    confirmBtn = document.getElementById('add-confirm-button');
+    confirmBtn.classList.add('add-remove-confirm-button');
+    confirmBtn.addEventListener('click', () => {
+        // let newBookTitle = document.getElementById('title-input').value;
+        // let newBookAuthor = document.getElementById('author-input').value;
+        // let newBookPages = document.getElementById('page-input').value;
 
+        // console.log(newBookTitle);
+        // console.log(newBookAuthor);
+        // console.log(newBookPages);
+
+        // let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
+        // myLibrary.push(addedBook);
+        // displayBooks(myLibrary);
+
+        const form = document.getElementById('submit-form');
+        let newBookTitle = form.elements['title-input'].value;
+        let newBookAuthor = form.elements['author-input'].value;
+        let newBookPages = form.elements['page-input'].value;
+        let newBookIsRead = form.elements['read-checkbox'].checked;
+
+        let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
+        if (newBookIsRead) {
+            addedBook.toggleRead();
+        }
+        myLibrary.push(addedBook);
+        closeForm(document.querySelector('#add-book-form'));
+        displayBooks(myLibrary);
+    })
+}
+
+main();

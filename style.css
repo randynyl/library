@@ -1,22 +1,28 @@
 body {
     display: flex;
     flex-direction: column;
-    font-family: 'Monserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
+    background-color: whitesmoke;
 }
 
 header {
+    background-color: transparent;
     align-self: center;
+    font-size: 30px;
+    background-repeat: repeat-x;
 }
 
 #book-container {
     display: flex;
     height: 100%;
     width: 100%;
-    background: lightyellow;
+    background: transparent;
     flex-wrap: wrap;
     flex-direction: row;
     justify-content: center;
 }
+
+
 
 .book-card {
     display: flex;
@@ -27,10 +33,18 @@ header {
     margin: 30px;
     width: 15em;
     height: 20em;
+    background-color: lightgoldenrodyellow;
+
 }
 
 .book-card-text {
     margin: 20px;
+    text-transform: capitalize;
+}
+
+.book-title {
+    font-weight: bold;
+    font-size: 20px;
 }
 
 .form {
@@ -93,7 +107,13 @@ form {
 .text-input {
     height: 2em;
     vertical-align: middle;
+    font-family: 'Montserrat', sans-serif;
 }
+
+.text-input::placeholder {
+    font-family: 'Montserrat', sans-serif;
+}
+
 
 .checkbox-input {
     display: flex;
@@ -123,14 +143,37 @@ form {
     pointer-events: all;
 }
 
-.remove-button {
-
+.unread-button {
+    margin: 10px;
+    height: 3em;
+    width: 10em;
+    font-size: 14px;
+    font-weight: bold;
+    background-color: pink;
 }
 
-.unread-button {
-
+.unread-button:hover {
+    background-color: lightpink;
 }
 
 .read-button {
-    
+    background-color: #98ff98;
 }
+
+.read-button:hover {
+    background-color: #90ee90;
+}
+
+.add-remove-confirm-button {
+    margin: 10px;
+    background-color: gainsboro;
+    height: 3em;
+    width: 10em;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.add-remove-confirm-button:hover {
+    background-color: lightgray;
+}
+
