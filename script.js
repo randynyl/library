@@ -1,10 +1,10 @@
-let myLibrary = [];
+let myLibrary;
 
-function Book(title, author, pages) {
+function Book(title, author, pages, isRead) {
     this.title = title;
     this.author = author;
     this.pages = pages;
-    this.read = false;
+    this.read = isRead;
     this.info = function() {
         let bookDetails = `${title} by ${author}, ${pages} pages, `;
         let readDetails;
@@ -70,13 +70,15 @@ function displayBooks(bookArr) {
         bookCard.appendChild(removeBtn);
         bookCard.classList.add('book-card');
 
+        console.log(book.read);
         if (book.read == true) {
-            toggleReadButton(readBtn);
+            readBtn.innerHTML = 'READ';
+            readBtn.classList.add('read-button');
         }
 
         bookContainer.appendChild(bookCard);
     })
-    // display 'Add book' card
+    // display 'Add book' card after all existing book cards
     let addBookCard = document.createElement('div');
     let addBtn = document.createElement('button');
 
@@ -94,6 +96,8 @@ function displayBooks(bookArr) {
 
 function toggleReadButton(readBtn) {
     let index = readBtn.parentNode.getAttribute('data-index');
+    console.log(myLibrary);
+    console.log(index);
     myLibrary[index].toggleRead();
     if (readBtn.classList.contains('read-button')) {
         readBtn.innerHTML = 'UNREAD';
@@ -131,22 +135,58 @@ function closeForm(form) {
     overlay.classList.remove('active');
 }
 
+function resetForm(form) {
+    form.elements['title-input'].value = '';
+    form.elements['author-input'].value = '';
+    form.elements['page-input'].value = '';
+    form.elements['read-checkbox'].checked = false;
+}
+
+function storageAvailable(type) {
+    var storage;
+    try {
+        storage = window[type];
+        var x = '__storage_test__';
+        storage.setItem(x, x);
+        storage.removeItem(x);
+        return true;
+    }
+    catch(e) {
+        return e instanceof DOMException && (
+            // everything except Firefox
+            e.code === 22 ||
+            // Firefox
+            e.code === 1014 ||
+            // test name field too, because code might not be present
+            // everything except Firefox
+            e.name === 'QuotaExceededError' ||
+            // Firefox
+            e.name === 'NS_ERROR_DOM_QUOTA_REACHED') &&
+            // acknowledge QuotaExceededError only if there's something already stored
+            (storage && storage.length !== 0);
+    }
+}
+
 function main() {
+
+    if (storageAvailable('localStorage')) {
+        if(!localStorage.getItem('stored-books')) {
+            myLibrary = [];
+          } else {
+            myLibrary = JSON.parse(localStorage.getItem('stored-books'));
+            for (let i=0; i<myLibrary.length; i++) {
+                myLibrary[i] = new Book(myLibrary[i].title, myLibrary[i].author, myLibrary[i].pages, myLibrary[i].read);
+            }
+          }
+      }
+      else {
+        myLibrary = [];
+      } 
+
     displayBooks(myLibrary);
     confirmBtn = document.getElementById('add-confirm-button');
     confirmBtn.classList.add('add-remove-confirm-button');
     confirmBtn.addEventListener('click', () => {
-        // let newBookTitle = document.getElementById('title-input').value;
-        // let newBookAuthor = document.getElementById('author-input').value;
-        // let newBookPages = document.getElementById('page-input').value;
-
-        // console.log(newBookTitle);
-        // console.log(newBookAuthor);
-        // console.log(newBookPages);
-
-        // let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
-        // myLibrary.push(addedBook);
-        // displayBooks(myLibrary);
 
         const form = document.getElementById('submit-form');
         let newBookTitle = form.elements['title-input'].value;
@@ -154,14 +194,15 @@ function main() {
         let newBookPages = form.elements['page-input'].value;
         let newBookIsRead = form.elements['read-checkbox'].checked;
 
-        let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages);
-        if (newBookIsRead) {
-            addedBook.toggleRead();
-        }
+        let addedBook = new Book(newBookTitle, newBookAuthor, newBookPages, newBookIsRead);
         myLibrary.push(addedBook);
         closeForm(document.querySelector('#add-book-form'));
         displayBooks(myLibrary);
+        localStorage.setItem('stored-books', JSON.stringify(myLibrary));
+        resetForm(form);
     })
 }
 
 main();
+
+
